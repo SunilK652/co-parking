@@ -23,7 +23,7 @@ const Layout = ({ children }) => {
 
   return (
     <div>
-      <header className="flex items-center justify-between p-4 bg-gray-800 text-white">
+      <header className="flex items-center justify-between p-8 bg-gray-800 text-white">
         <h1 className="text-xl font-bold">Co Parking</h1>
         {username && (
           <div className="relative">

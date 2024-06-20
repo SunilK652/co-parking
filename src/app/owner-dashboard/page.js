@@ -68,7 +68,7 @@ const ParkingOwnerDashboard = () => {
     setLoading(true); // Show loader
 
     // Dummy submission logic
-    await new Promise((resolve) => setTimeout(resolve, 2000)); // Simulate API call
+    await new Promise((resolve) => setTimeout(resolve, 2000));
 
     // After submission logic
     setLoading(false); // Hide loader
