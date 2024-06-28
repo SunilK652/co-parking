@@ -31,42 +31,42 @@ const LoginPage = () => {
   return (
     <div className="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 bg-gray-100">
       <div className="max-w-md w-full space-y-8 p-10 bg-white rounded-xl shadow-md">
-      <div className="flex items-center justify-between">
-            <div className="flex items-center">
-              <input
-                id="parking-selection"
-                name="role"
-                type="radio"
-                value="parking-selection"
-                checked={role === "parking-selection"}
-                onChange={(e) => setRole(e.target.value)}
-                className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300"
-              />
-              <label
-                htmlFor="parking-selection"
-                className="ml-2 block text-sm text-gray-900"
-              >
-                Parking Selection
-              </label>
-            </div>
-            <div className="flex items-center">
-              <input
-                id="parking-owner"
-                name="role"
-                type="radio"
-                value="parking-owner"
-                checked={role === "parking-owner"}
-                onChange={(e) => setRole(e.target.value)}
-                className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300"
-              />
-              <label
-                htmlFor="parking-owner"
-                className="ml-2 block text-sm text-gray-900"
-              >
-                Parking Owner
-              </label>
-            </div>
+        <div className="flex items-center justify-between">
+          <div className="flex items-center">
+            <input
+              id="parking-selection"
+              name="role"
+              type="radio"
+              value="parking-selection"
+              checked={role === "parking-selection"}
+              onChange={(e) => setRole(e.target.value)}
+              className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300"
+            />
+            <label
+              htmlFor="parking-selection"
+              className="ml-2 block text-sm text-gray-900"
+            >
+              Co-Parking
+            </label>
           </div>
+          <div className="flex items-center">
+            <input
+              id="parking-owner"
+              name="role"
+              type="radio"
+              value="parking-owner"
+              checked={role === "parking-owner"}
+              onChange={(e) => setRole(e.target.value)}
+              className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300"
+            />
+            <label
+              htmlFor="parking-owner"
+              className="ml-2 block text-sm text-gray-900"
+            >
+              Client
+            </label>
+          </div>
+        </div>
         <div>
           <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
             Sign in to your account
@@ -121,6 +121,14 @@ const LoginPage = () => {
             >
               Sign In
             </button>
+          </div>
+          <div className="text-center">
+            <p>
+              Don't have an account?{' '}
+              <a href="/signup" className="text-indigo-600 hover:text-indigo-800">
+                Sign Up
+              </a>
+            </p>
           </div>
         </form>
       </div>

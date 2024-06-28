@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 
 const RegisterPage = () => {
+  const [role, setRole] = useState('client');
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [mobile, setMobile] = useState('');
@@ -33,6 +34,42 @@ const RegisterPage = () => {
       <div className="w-full max-w-md p-8 space-y-8 bg-white rounded shadow-md">
         <h2 className="text-2xl font-bold text-center">Register</h2>
         <form onSubmit={handleSubmit} className="space-y-6">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center">
+              <input
+                id="client"
+                name="role"
+                type="radio"
+                value="client"
+                checked={role === "client"}
+                onChange={(e) => setRole(e.target.value)}
+                className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300"
+              />
+              <label
+                htmlFor="client"
+                className="ml-2 block text-sm text-gray-900"
+              >
+                Client
+              </label>
+            </div>
+            <div className="flex items-center">
+              <input
+                id="co-parking"
+                name="role"
+                type="radio"
+                value="co-parking"
+                checked={role === "co-parking"}
+                onChange={(e) => setRole(e.target.value)}
+                className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300"
+              />
+              <label
+                htmlFor="co-parking"
+                className="ml-2 block text-sm text-gray-900"
+              >
+                Co-Parking
+              </label>
+            </div>
+          </div>
           <div>
             <label htmlFor="name" className="block text-sm font-medium text-gray-700">
               Name
