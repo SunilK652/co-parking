@@ -1,15 +1,23 @@
 'use client';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import axios from 'axios';
 
 const RegisterPage = () => {
-  const [role, setRole] = useState('client');
+  const [roles, setRoles] = useState([]);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [mobile, setMobile] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const router = useRouter();
+
+  const handleRoleChange = (e) => {
+    const { value, checked } = e.target;
+    setRoles(prevRoles =>
+      checked ? [...prevRoles, value] : prevRoles.filter(role => role !== value)
+    );
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -24,9 +32,27 @@ const RegisterPage = () => {
       return;
     }
 
-    // Dummy registration logic
-    localStorage.setItem('authToken', 'sunil');
-    router.push('/login');
+    const [firstName, ...lastNameArr] = name.split(' ');
+    const lastName = lastNameArr.join(' ');
+    
+    try {
+      const response = await axios.post('http://localhost:3333/api/user/signup', {
+        email,
+        password,
+        firstName:name,
+        lastName:name,
+        //confirmPassword,
+        roles,
+        contactnumber:mobile
+      });
+
+      // Handle success (redirect to login or another page)
+      localStorage.setItem('authToken', response.data.token);
+      router.push('/login');
+    } catch (error) {
+      console.error('Error registering:', error);
+      alert('Registration failed');
+    }
   };
 
   return (
@@ -39,10 +65,10 @@ const RegisterPage = () => {
               <input
                 id="client"
                 name="role"
-                type="radio"
+                type="checkbox"
                 value="client"
-                checked={role === "client"}
-                onChange={(e) => setRole(e.target.value)}
+                checked={roles.includes('client')}
+                onChange={handleRoleChange}
                 className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300"
               />
               <label
@@ -56,10 +82,10 @@ const RegisterPage = () => {
               <input
                 id="co-parking"
                 name="role"
-                type="radio"
+                type="checkbox"
                 value="co-parking"
-                checked={role === "co-parking"}
-                onChange={(e) => setRole(e.target.value)}
+                checked={roles.includes('co-parking')}
+                onChange={handleRoleChange}
                 className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300"
               />
               <label
