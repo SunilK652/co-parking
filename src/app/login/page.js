@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { loginUser } from '../apiMethod';
 
 const LoginPage = () => {
   const [role, setRole] = useState("parking-selection");
@@ -11,20 +12,22 @@ const LoginPage = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
 
-    // Dummy authentication logic
-    if (username === "sunil@gmail.com" && password === "12345") {
-      // Set token in local storage
-      localStorage.setItem("authToken", "sunil");
-      localStorage.setItem("username", "Sunil");
+    try {
+      const data = await loginUser(username, password);
 
-      // Redirect based on the selected role
-      if (role === "parking-owner") {
-        router.push("/owner-dashboard");
+      console.log('data', data)
+      localStorage.setItem('authToken', data.token);
+      localStorage.setItem('username', data.email);
+      localStorage.setItem('role', role);
+
+      if (role === 'parking-owner') {
+        router.push('/owner-dashboard');
       } else {
-        router.push("/dashboard");
+        router.push('/dashboard');
       }
-    } else {
-      alert("Invalid credentials");
+    } catch (error) {
+      alert(error.message);
+      console.error('Error:', error);
     }
   };
 
@@ -113,7 +116,6 @@ const LoginPage = () => {
               />
             </div>
           </div>
-         
           <div>
             <button
               type="submit"

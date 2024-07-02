@@ -1,5 +1,6 @@
 import { Inter } from "next/font/google";
 import "./globals.css";
+import { ParkingProvider } from "./ParkingContext";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -11,7 +12,14 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body >{children}</body>
+      <head>
+    <script src="https://cdn.checkout.com/js/framesv2.min.js"></script>
+    </head>
+      <body>
+        <ParkingProvider>
+          {children}
+        </ParkingProvider>
+      </body>
     </html>
   );
 }

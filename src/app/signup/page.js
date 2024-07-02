@@ -1,10 +1,10 @@
 'use client';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import axios from 'axios';
+import { registerUser } from '../apiMethod';
 
 const RegisterPage = () => {
-  const [roles, setRoles] = useState([]);
+  const [role, setRoles] = useState('');
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [mobile, setMobile] = useState('');
@@ -15,7 +15,7 @@ const RegisterPage = () => {
   const handleRoleChange = (e) => {
     const { value, checked } = e.target;
     setRoles(prevRoles =>
-      checked ? [...prevRoles, value] : prevRoles.filter(role => role !== value)
+      checked ? value : prevRoles.filter(role => role !== value)
     );
   };
 
@@ -32,22 +32,9 @@ const RegisterPage = () => {
       return;
     }
 
-    const [firstName, ...lastNameArr] = name.split(' ');
-    const lastName = lastNameArr.join(' ');
-    
     try {
-      const response = await axios.post('http://localhost:3333/api/user/signup', {
-        email,
-        password,
-        firstName:name,
-        lastName:name,
-        //confirmPassword,
-        roles,
-        contactnumber:mobile
-      });
-
-      // Handle success (redirect to login or another page)
-      localStorage.setItem('authToken', response.data.token);
+      const data = await registerUser(name, email, mobile, password, confirmPassword);
+      localStorage.setItem('authToken', data.token);
       router.push('/login');
     } catch (error) {
       console.error('Error registering:', error);
@@ -60,14 +47,14 @@ const RegisterPage = () => {
       <div className="w-full max-w-md p-8 space-y-8 bg-white rounded shadow-md">
         <h2 className="text-2xl font-bold text-center">Register</h2>
         <form onSubmit={handleSubmit} className="space-y-6">
-          <div className="flex items-center justify-between">
+          {/* <div className="flex items-center justify-between">
             <div className="flex items-center">
               <input
                 id="client"
                 name="role"
                 type="checkbox"
                 value="client"
-                checked={roles.includes('client')}
+                checked={role.includes('client')}
                 onChange={handleRoleChange}
                 className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300"
               />
@@ -84,7 +71,7 @@ const RegisterPage = () => {
                 name="role"
                 type="checkbox"
                 value="co-parking"
-                checked={roles.includes('co-parking')}
+                checked={role.includes('co-parking')}
                 onChange={handleRoleChange}
                 className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300"
               />
@@ -95,7 +82,7 @@ const RegisterPage = () => {
                 Co-Parking
               </label>
             </div>
-          </div>
+          </div> */}
           <div>
             <label htmlFor="name" className="block text-sm font-medium text-gray-700">
               Name
