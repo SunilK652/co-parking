@@ -1,5 +1,6 @@
 'use client';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import { useEffect, useState } from 'react';
 
 const Layout = ({ children }) => {
@@ -9,6 +10,7 @@ const Layout = ({ children }) => {
 
   useEffect(() => {
     const storedUsername = localStorage.getItem('username');
+    console.log('email', storedUsername);
     if (storedUsername) {
       setUsername(storedUsername);
     }
@@ -16,15 +18,17 @@ const Layout = ({ children }) => {
 
   const handleLogout = () => {
     localStorage.removeItem('authToken');
-    localStorage.removeItem('username');
+    localStorage.removeItem('email');
     localStorage.removeItem('userLocation');
     router.push('/login');
   };
 
   return (
     <div>
-      <header className="flex items-center justify-between p-4 bg-gray-800 text-white">
-        <h1 className="text-xl font-bold">Co Parking</h1>
+      <header className="flex items-center justify-between p-8 bg-gray-800 text-white">
+      <Link href="/">
+      <p className="text-xl font-bold">Co Parking</p>
+      </Link>
         {username && (
           <div className="relative">
             <button

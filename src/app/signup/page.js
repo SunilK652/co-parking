@@ -1,14 +1,23 @@
 'use client';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { registerUser } from '../apiMethod';
 
 const RegisterPage = () => {
+  const [role, setRoles] = useState('');
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [mobile, setMobile] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const router = useRouter();
+
+  const handleRoleChange = (e) => {
+    const { value, checked } = e.target;
+    setRoles(prevRoles =>
+      checked ? value : prevRoles.filter(role => role !== value)
+    );
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -23,9 +32,14 @@ const RegisterPage = () => {
       return;
     }
 
-    // Dummy registration logic
-    localStorage.setItem('authToken', 'sunil');
-    router.push('/login');
+    try {
+      const data = await registerUser(name, email, mobile, password, confirmPassword);
+      localStorage.setItem('authToken', data.token);
+      router.push('/login');
+    } catch (error) {
+      console.error('Error registering:', error);
+      alert('Registration failed');
+    }
   };
 
   return (
@@ -33,6 +47,42 @@ const RegisterPage = () => {
       <div className="w-full max-w-md p-8 space-y-8 bg-white rounded shadow-md">
         <h2 className="text-2xl font-bold text-center">Register</h2>
         <form onSubmit={handleSubmit} className="space-y-6">
+          {/* <div className="flex items-center justify-between">
+            <div className="flex items-center">
+              <input
+                id="client"
+                name="role"
+                type="checkbox"
+                value="client"
+                checked={role.includes('client')}
+                onChange={handleRoleChange}
+                className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300"
+              />
+              <label
+                htmlFor="client"
+                className="ml-2 block text-sm text-gray-900"
+              >
+                Client
+              </label>
+            </div>
+            <div className="flex items-center">
+              <input
+                id="co-parking"
+                name="role"
+                type="checkbox"
+                value="co-parking"
+                checked={role.includes('co-parking')}
+                onChange={handleRoleChange}
+                className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300"
+              />
+              <label
+                htmlFor="co-parking"
+                className="ml-2 block text-sm text-gray-900"
+              >
+                Co-Parking
+              </label>
+            </div>
+          </div> */}
           <div>
             <label htmlFor="name" className="block text-sm font-medium text-gray-700">
               Name
