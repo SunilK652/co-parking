@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import moment from 'moment';
 import withAuth from "../withAuth/withAuth";
 import Layout from "../components/layout/page";
 import { getOwners } from "../apiMethod";
@@ -79,6 +80,8 @@ const Dashboard = () => {
       landMark: selectedParking?.landMark,
       phoneNumber: selectedParking?.phoneNumber,
       pinCode: selectedParking?.pinCode,
+      fromDate:selectedParking?.fromDate,
+      toDate:selectedParking?.toDate,
     };
 
     setParkingDetails(parkingDetails);
@@ -111,7 +114,7 @@ const Dashboard = () => {
             <option value="bike">Bike</option>
           </select>
         </div>
-        {filteredResults.length > 0 && (
+        {filteredResults.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {filteredResults.map((result, index) => (
               <div key={index} className="bg-white rounded-lg shadow-md p-4">
@@ -119,8 +122,14 @@ const Dashboard = () => {
                 <p className="text-gray-600">{result?.segment}</p>
                 <p className="text-gray-600">{result?.address}</p>
                 <p className="text-gray-600">{result?.pinCode}</p>
+                <p className="text-gray-600">
+      From: {moment(result?.fromDate).format('MMMM DD, hA')}
+    </p>
+    <p className="text-gray-600">
+      To: {moment(result?.toDate).format('MMMM DD, hA')}
+    </p>
                 <div className="flex flex-col">
-                  <a
+                  {/* <a
                     href="#"
                     onClick={(e) => {
                       e.preventDefault();
@@ -131,9 +140,9 @@ const Dashboard = () => {
                     className="text-center mt-2 px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
                   >
                     Get Directions
-                  </a>
+                  </a> */}
                   <button
-                    onClick={() => handleSelectParking(result?.spotName)}
+                    onClick={() => handleSelectParking(result)}
                     className="mt-2 px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
                   >
                     Select Parking
@@ -142,7 +151,7 @@ const Dashboard = () => {
               </div>
             ))}
           </div>
-        )}
+        ): <p className="text-center">No Parking available</p>}
       </div>
       {showModal && (
         <div className="fixed z-10 inset-0 overflow-y-auto">

@@ -29,7 +29,7 @@ export const loginUser = async (email, password) => {
   }
 };
 
-export const addOwner = async (name, address, phoneNumber, spotName, pinCode, landMark, segment, city, state) => {
+export const addOwner = async (name, address, phoneNumber, spotName, pinCode, landMark, segment, city, state, price, fromDate, toDate) => {
   try {
     const response = await axios.post('http://localhost:3333/api/owner/addOwner', {
       name,
@@ -40,7 +40,10 @@ export const addOwner = async (name, address, phoneNumber, spotName, pinCode, la
       landMark,
       segment,
       city,
-      state
+      state,
+      price,
+      fromDate,
+      toDate
     });
     return response.data;
   } catch (error) {
@@ -59,8 +62,7 @@ export const getOwners = async () => {
 
 export const getQRCode = async () => {
   try {
-    const response = await axios.post('http://localhost:3333/api/payment/qr-code');
-    console.log('qrCodeData', response)
+    const response = await axios.get('http://localhost:3333/api/payment/qr-code');
     return response.data;
   } catch (error) {
     throw new Error(error.response?.data?.error || 'Failed to generate QR code');
@@ -68,7 +70,6 @@ export const getQRCode = async () => {
 };
 
 export const checkout = async(token) => {
-  console.log('apiMethid', token);
   try {
     const response = await axios.post('http://localhost:3333/api/payment/check-out',{
       token,

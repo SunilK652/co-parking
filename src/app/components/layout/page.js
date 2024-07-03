@@ -10,7 +10,6 @@ const Layout = ({ children }) => {
 
   useEffect(() => {
     const storedUsername = localStorage.getItem('username');
-    console.log('email', storedUsername);
     if (storedUsername) {
       setUsername(storedUsername);
     }
@@ -18,8 +17,8 @@ const Layout = ({ children }) => {
 
   const handleLogout = () => {
     localStorage.removeItem('authToken');
-    localStorage.removeItem('email');
-    localStorage.removeItem('userLocation');
+    localStorage.removeItem('username');
+    localStorage.removeItem('role');
     router.push('/login');
   };
 
