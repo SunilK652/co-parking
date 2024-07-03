@@ -1,20 +1,29 @@
-'use client';
-import React from 'react';
 
-const QrCodeModal = ({ qrCodeData, confirmPayment, closeModal }) => {
-  return (
-    <div className="fixed inset-0 flex items-center justify-center bg-gray-500 bg-opacity-75 z-50">
-      <div className="bg-white p-4 rounded-lg shadow-lg">
-        <button className="absolute top-2 right-2 text-gray-500" onClick={closeModal}>
-          &times;
-        </button>
-        <img src={qrCodeData} alt="QR Code" />
-        <button onClick={confirmPayment} className="bg-blue-500 text-white px-4 py-2 mt-4 rounded-md">
-          Confirm Payment
-        </button>
+const Modal = ({ isOpen, onClose, children }) => {
+    if (!isOpen) return null;
+  
+    useEffect(() => {
+      toast.success('Your slot is confirmed!', {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+    }, []);
+  
+    return (
+      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+        <div className="bg-white p-6 rounded-md shadow-md z-60">
+          {children}
+          <ToastContainer />
+          <button onClick={onClose} className="mt-4 bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500">
+            Close
+          </button>
+        </div>
       </div>
-    </div>
-  );
-};
-
-export default QrCodeModal;
+    );
+  };
+  

@@ -1,5 +1,9 @@
 'use client';
 import { useState, useEffect } from 'react';
+import Datetime from 'react-datetime';
+import moment from 'moment';
+import "react-datetime/css/react-datetime.css";
+import '../globals.css';
 import Layout from '../components/layout/page';
 import withAuth from '../withAuth/withAuth';
 import { addOwner, getOwners } from '../apiMethod';
@@ -12,9 +16,12 @@ const ParkingOwnerDashboard = () => {
     spotName: '',
     pinCode: '',
     landMark: '',
-    segment: '' ,
-    city:'',
-    state:''
+    segment: '',
+    city: '',
+    state: '',
+    price: '',
+    fromDate: '',
+    toDate: '',
   });
   const [errors, setErrors] = useState({});
   const [successMessage, setSuccessMessage] = useState('');
@@ -37,7 +44,9 @@ const ParkingOwnerDashboard = () => {
     if (!formData.address) newErrors.address = 'Address is required';
     if (!formData.phone) newErrors.phone = 'Phone number is required';
     if (!formData.pinCode) newErrors.pinCode = 'PinCode is required';
-    if (!formData.segment) newErrors.segment = 'Segment is required'; // Validate segment
+    if (!formData.segment) newErrors.segment = 'Segment is required';
+    if (!formData.fromDate) newErrors.fromDate = 'From date is required';
+    if (!formData.toDate) newErrors.toDate = 'To date is required';
     return newErrors;
   };
 
@@ -53,8 +62,11 @@ const ParkingOwnerDashboard = () => {
     setLoading(true);
 
     try {
+      let fromDate = moment(formData.fromDate).format('YYYY-MM-DDTHH:mm:ss');
+      let toDate = moment(formData.toDate).format('YYYY-MM-DDTHH:mm:ss');
       const response = await addOwner(formData.name, formData.address, formData.phone,
-        formData.spotName, formData.pinCode, formData.landMark, formData.segment, formData.city, formData.state);
+        formData.spotName, formData.pinCode, formData.landMark, formData.segment, formData.city, formData.state, formData.price, fromDate, toDate);
+      console.log('fromDate', fromDate, toDate);
       setLoading(false);
       setSuccessMessage(response.message);
       setFormData({
@@ -64,9 +76,12 @@ const ParkingOwnerDashboard = () => {
         spotName: '',
         pinCode: '',
         landMark: '',
-        segment: '' ,
-        city:'',
-        state:''
+        segment: '',
+        city: '',
+        state: '',
+        price: '',
+        fromDate: '',
+        toDate: '',
       });
       fetchOwners();
     } catch (error) {
@@ -87,6 +102,20 @@ const ParkingOwnerDashboard = () => {
   useEffect(() => {
     fetchOwners();
   }, []);
+
+  const handleFromDateChange = (fromDate) => {
+    setFormData({
+      ...formData,
+      fromDate: fromDate,
+    });
+  };
+
+  const handleToDateChange = (toDate) => {
+    setFormData({
+      ...formData,
+      toDate: toDate,
+    });
+  };
 
   return (
     <Layout>
@@ -188,6 +217,44 @@ const ParkingOwnerDashboard = () => {
                 {errors.segment && <p className="text-red-500 text-sm mt-1">{errors.segment}</p>}
               </div>
               <div>
+                <label htmlFor="price" className="block text-sm font-medium text-gray-700">Declare Your Price</label>
+                <input
+                  id="price"
+                  name="price"
+                  type="number"
+                  required
+                  value={formData.price}
+                  onChange={handleChange}
+                  className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                />
+                <span className="text-gray-500 text-sm">Price for one hour</span>
+                {errors.price && <p className="text-red-500 text-sm mt-1">{errors.price}</p>}
+              </div>
+              <div className="mb-4">
+                <label htmlFor="fromDate" className="block text-sm font-medium text-gray-700">Select Available From Date and Time</label>
+                <div className="mt-1">
+                  <Datetime
+                    value={formData.fromDate}
+                    onChange={handleFromDateChange}
+                    timeFormat={true}
+                    inputProps={{ className: 'mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm' }}
+                  />
+                </div>
+                {errors.fromDate && <p className="text-red-500 text-sm mt-1">{errors.fromDate}</p>}
+              </div>
+              <div className="mb-4">
+                <label htmlFor="toDate" className="block text-sm font-medium text-gray-700">Select Available To Date and Time</label>
+                <div className="mt-1">
+                  <Datetime
+                    value={formData.toDate}
+                    onChange={handleToDateChange}
+                    timeFormat={true}
+                    inputProps={{ className: 'mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm' }}
+                  />
+                </div>
+                {errors.toDate && <p className="text-red-500 text-sm mt-1">{errors.toDate}</p>}
+              </div>
+              <div>
                 <label htmlFor="city" className="block text-sm font-medium text-gray-700">City</label>
                 <input
                   id="city"
@@ -226,7 +293,6 @@ const ParkingOwnerDashboard = () => {
                 />
                 {errors.pinCode && <p className="text-red-500 text-sm mt-1">{errors.pinCode}</p>}
               </div>
-             
               <div>
                 <button
                   type="submit"
