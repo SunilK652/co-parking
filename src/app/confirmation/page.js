@@ -17,7 +17,6 @@ const ConfirmationPage = () => {
   };
 
   useEffect(() => {
-    // Show toast notification
     toast.success('Your slot is confirmed!', {
       position: "top-center",
       autoClose: 5000,
@@ -56,8 +55,8 @@ const ConfirmationPage = () => {
                   <li className="text-gray-700"><strong>Address:</strong> {parkingDetails?.address}</li>
                   <li className="text-gray-700"><strong>Spot Name:</strong> {parkingDetails?.spotName}</li>
                   <li className="text-gray-700"><strong>Landmark:</strong> {parkingDetails?.landMark}</li>
-                  <li className="text-gray-700"><strong>FromDate:</strong> {moment(parkingDetails?.fromDate).format('MMMM DD, hA')}</li>
-                  <li className="text-gray-700"><strong>ToDate:</strong> {moment(parkingDetails?.toDate).format('MMMM DD, hA')}</li>
+                  <li className="text-gray-700"><strong>From Date:</strong> {moment(parkingDetails?.fromDate).format('MMMM DD, hA')}</li>
+                  <li className="text-gray-700"><strong>To Date:</strong> {moment(parkingDetails?.toDate).format('MMMM DD, hA')}</li>
                   <li className="text-gray-700"><strong>Phone Number:</strong> {parkingDetails?.phoneNumber}</li>
                   <li className="text-gray-700"><strong>Pincode:</strong> {parkingDetails?.pinCode}</li>
                 </ul>

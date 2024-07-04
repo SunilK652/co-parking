@@ -129,18 +129,6 @@ const Dashboard = () => {
       To: {moment(result?.toDate).format('MMMM DD, hA')}
     </p>
                 <div className="flex flex-col">
-                  {/* <a
-                    href="#"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      handleSelectParking(result);
-                    }}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-center mt-2 px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                  >
-                    Get Directions
-                  </a> */}
                   <button
                     onClick={() => handleSelectParking(result)}
                     className="mt-2 px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
