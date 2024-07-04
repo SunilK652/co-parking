@@ -14,8 +14,6 @@ const LoginPage = () => {
 
     try {
       const data = await loginUser(username, password);
-
-      console.log('data', data)
       localStorage.setItem('authToken', data.token);
       localStorage.setItem('username', data.email);
       localStorage.setItem('role', role);
@@ -66,7 +64,7 @@ const LoginPage = () => {
               htmlFor="parking-owner"
               className="ml-2 block text-sm text-gray-900"
             >
-              Client
+              Parking Owner
             </label>
           </div>
         </div>

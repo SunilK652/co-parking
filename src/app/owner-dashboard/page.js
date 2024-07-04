@@ -66,7 +66,6 @@ const ParkingOwnerDashboard = () => {
       let toDate = moment(formData.toDate).format('YYYY-MM-DDTHH:mm:ss');
       const response = await addOwner(formData.name, formData.address, formData.phone,
         formData.spotName, formData.pinCode, formData.landMark, formData.segment, formData.city, formData.state, formData.price, fromDate, toDate);
-      console.log('fromDate', fromDate, toDate);
       setLoading(false);
       setSuccessMessage(response.message);
       setFormData({
