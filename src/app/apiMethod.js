@@ -33,6 +33,7 @@ export const loginUser = async (email, password) => {
 
 export const addOwner = async (name, address, phoneNumber, spotName, pinCode, landMark, segment, city, state, price, fromDate, toDate) => {
   try {
+    const authToken = localStorage.getItem('authToken');
     const response = await axios.post(`${PROD_BASE_URL}/api/owner/addOwner`, {
       name,
       address,
@@ -46,6 +47,10 @@ export const addOwner = async (name, address, phoneNumber, spotName, pinCode, la
       price,
       fromDate,
       toDate
+    },{
+      headers: {
+        Authorization: `Bearer ${authToken}`
+      }
     });
     return response.data;
   } catch (error) {
@@ -55,7 +60,12 @@ export const addOwner = async (name, address, phoneNumber, spotName, pinCode, la
 
 export const getOwners = async () => {
   try {
-    const response = await axios.get(`${PROD_BASE_URL}/api/owner/getParking`);
+    const authToken = localStorage.getItem('authToken');
+    const response = await axios.get(`${PROD_BASE_URL}/api/owner/getParking`,{
+      headers: {
+        Authorization: `Bearer ${authToken}`
+      }
+    });
     return response.data;
   } catch (error) {
     throw new Error(error.response?.data?.message || 'An error occurred. Please try again.');
