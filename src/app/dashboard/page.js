@@ -128,10 +128,26 @@ const Dashboard = () => {
     <p className="text-gray-600">
       To: {moment(result?.toDate).format('MMMM DD, hA')}
     </p>
+    <div className="flex items-center my-2">
+                  <span
+                    className={`px-2 py-1 rounded-full text-white ${
+                      result?.parkingStatus === 'available'
+                        ? 'bg-green-500'
+                        : 'bg-gray-500'
+                    }`}
+                  >
+                    {result?.parkingStatus === 'available' ? 'Available' : 'Booked'}
+                  </span>
+                </div>
                 <div className="flex flex-col">
-                  <button
+                <button
                     onClick={() => handleSelectParking(result)}
-                    className="mt-2 px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                    className={`mt-2 px-4 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 ${
+                      result?.parkingStatus === 'available'
+                        ? 'bg-indigo-600 text-white hover:bg-indigo-700'
+                        : 'bg-gray-300 text-gray-600 cursor-not-allowed'
+                    }`}
+                    disabled={result?.parkingStatus !== 'available'}
                   >
                     Select Parking
                   </button>

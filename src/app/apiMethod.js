@@ -91,3 +91,18 @@ export const checkout = async(token) => {
     throw new Error(error.response?.data?.error || 'Failed to generate Token')
   }
 }
+
+export const sendPaymentConfirmationFlag = async (flagData) => {
+  try {
+    const authToken = localStorage.getItem('authToken');
+    const response = await axios.post(`${PROD_BASE_URL}/api/payment/payment-confirmation`, flagData, {
+      headers: {
+        Authorization: `Bearer ${authToken}`
+      }
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Error sending payment confirmation flag:', error);
+    throw error;
+  }
+};

@@ -3,9 +3,8 @@
 import React, { useEffect, useState } from "react";
 import { Frames, CardFrame } from "frames-react";
 import Layout from "../components/layout/page";
-import { getQRCode } from "../apiMethod";
+import { getQRCode, checkout, sendPaymentConfirmationFlag } from "../apiMethod";
 import { useRouter } from "next/navigation";
-import { checkout } from '../apiMethod';
 import '../globals.css'
 
 const PaymentInfo = () => {
@@ -59,9 +58,14 @@ const PaymentInfo = () => {
     }
   };
 
-  const confirmPayment = () => {
-    setPaymentConfirmed(true);
-    router.push("/confirmation");
+  const confirmPayment = async () => {
+    try {
+      await sendPaymentConfirmationFlag({ paymentConfirmed: true });
+      setPaymentConfirmed(true);
+      router.push("/confirmation");
+    } catch (error) {
+      setError("Failed to confirm payment");
+    }
   };
 
   return (
