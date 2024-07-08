@@ -6,8 +6,10 @@ import Layout from "../components/layout/page";
 import { getQRCode, checkout, sendPaymentConfirmationFlag } from "../apiMethod";
 import { useRouter } from "next/navigation";
 import '../globals.css'
+import { useParking } from '../ParkingContext';
 
 const PaymentInfo = () => {
+ const { parkingDetails } = useParking();
   const [qrCodeData, setQRCodeData] = useState("");
   const [loading, setLoading] = useState(false);
   const [paymentConfirmed, setPaymentConfirmed] = useState(false);
@@ -15,6 +17,7 @@ const PaymentInfo = () => {
   const [pToken, setPToken] = useState('');
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState("qr");
   const [showLoader, setShowLoader] = useState(false);
+  //const [selectedParkingId, setSelectedParkingId] = useState(null);
   const router = useRouter();
 
   useEffect(() => {
@@ -60,7 +63,7 @@ const PaymentInfo = () => {
 
   const confirmPayment = async () => {
     try {
-      await sendPaymentConfirmationFlag({ paymentConfirmed: true });
+      await sendPaymentConfirmationFlag({ paymentConfirmed: true, parkingId: parkingDetails?.id});
       setPaymentConfirmed(true);
       router.push("/confirmation");
     } catch (error) {

@@ -82,7 +82,10 @@ const Dashboard = () => {
       pinCode: selectedParking?.pinCode,
       fromDate:selectedParking?.fromDate,
       toDate:selectedParking?.toDate,
+      id: selectedParking?._id
     };
+
+   // setSelectedParkingId(selectedParking?._id);
 
     setParkingDetails(parkingDetails);
     router.push('/payment');

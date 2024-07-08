@@ -92,10 +92,10 @@ export const checkout = async(token) => {
   }
 }
 
-export const sendPaymentConfirmationFlag = async (flagData) => {
+export const sendPaymentConfirmationFlag = async (flagData, parkingId) => {
   try {
     const authToken = localStorage.getItem('authToken');
-    const response = await axios.post(`${PROD_BASE_URL}/api/payment/payment-confirmation`, flagData, {
+    const response = await axios.post(`${PROD_BASE_URL}/api/payment/payment-confirmation`, { parkingId, ...flagData }, {
       headers: {
         Authorization: `Bearer ${authToken}`
       }
