@@ -3,12 +3,13 @@
 import React, { useEffect, useState } from "react";
 import { Frames, CardFrame } from "frames-react";
 import Layout from "../components/layout/page";
-import { getQRCode } from "../apiMethod";
+import { getQRCode, checkout, sendPaymentConfirmationFlag } from "../apiMethod";
 import { useRouter } from "next/navigation";
-import { checkout } from '../apiMethod';
 import '../globals.css'
+import { useParking } from '../ParkingContext';
 
 const PaymentInfo = () => {
+ const { parkingDetails } = useParking();
   const [qrCodeData, setQRCodeData] = useState("");
   const [loading, setLoading] = useState(false);
   const [paymentConfirmed, setPaymentConfirmed] = useState(false);
@@ -16,6 +17,7 @@ const PaymentInfo = () => {
   const [pToken, setPToken] = useState('');
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState("qr");
   const [showLoader, setShowLoader] = useState(false);
+  //const [selectedParkingId, setSelectedParkingId] = useState(null);
   const router = useRouter();
 
   useEffect(() => {
@@ -59,9 +61,14 @@ const PaymentInfo = () => {
     }
   };
 
-  const confirmPayment = () => {
-    setPaymentConfirmed(true);
-    router.push("/confirmation");
+  const confirmPayment = async () => {
+    try {
+      await sendPaymentConfirmationFlag({ paymentConfirmed: true, parkingId: parkingDetails?.id});
+      setPaymentConfirmed(true);
+      router.push("/confirmation");
+    } catch (error) {
+      setError("Failed to confirm payment");
+    }
   };
 
   return (
