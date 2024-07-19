@@ -131,6 +131,7 @@ const Dashboard = () => {
     <p className="text-gray-600">
       To: {moment(result?.toDate).format('MMMM DD, hA')}
     </p>
+    <p className="text-gray-600">Price: {result?.price}/- INR</p>
     <div className="flex items-center my-2">
                   <span
                     className={`px-2 py-1 rounded-full text-white ${
